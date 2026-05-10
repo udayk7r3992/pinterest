@@ -304,3 +304,357 @@
 
 </body>
 </html>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PinDeals – Top Picks from Amazon</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=DM+Sans:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: 'DM Sans', sans-serif; background: #faf9f7; color: #1a1a1a; }
+
+  nav {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 1.2rem 3rem;
+    background: #fff;
+    border-bottom: 1px solid #ebebeb;
+    position: sticky; top: 0; z-index: 100;
+  }
+  .logo { font-family: 'Playfair Display', serif; font-size: 1.5rem; color: #c0392b; letter-spacing: -0.5px; }
+  .logo span { color: #1a1a1a; }
+  nav ul { list-style: none; display: flex; gap: 2rem; }
+  nav ul a { text-decoration: none; font-size: 0.9rem; color: #555; transition: color 0.2s; }
+  nav ul a:hover { color: #c0392b; }
+  .nav-btn {
+    background: #c0392b; color: #fff; border: none; padding: 0.55rem 1.3rem;
+    border-radius: 6px; font-family: 'DM Sans', sans-serif; font-size: 0.85rem;
+    cursor: pointer; transition: background 0.2s;
+  }
+  .nav-btn:hover { background: #a93226; }
+
+  .hero {
+    display: grid; grid-template-columns: 1fr 1fr;
+    min-height: 88vh; align-items: center;
+    padding: 4rem 3rem;
+    gap: 3rem;
+  }
+  .hero-text h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: 3.4rem; line-height: 1.1;
+    color: #1a1a1a; margin-bottom: 1.2rem;
+  }
+  .hero-text h1 em { color: #c0392b; font-style: normal; }
+  .hero-text p { font-size: 1.05rem; color: #666; line-height: 1.7; max-width: 440px; margin-bottom: 2rem; }
+  .hero-actions { display: flex; gap: 1rem; flex-wrap: wrap; }
+  .btn-primary {
+    background: #c0392b; color: #fff; text-decoration: none;
+    padding: 0.8rem 1.8rem; border-radius: 8px; font-size: 0.95rem;
+    font-weight: 500; transition: background 0.2s;
+  }
+  .btn-primary:hover { background: #a93226; }
+  .btn-outline {
+    background: transparent; color: #1a1a1a; text-decoration: none;
+    padding: 0.8rem 1.8rem; border-radius: 8px; font-size: 0.95rem;
+    border: 1.5px solid #ccc; font-weight: 500; transition: border-color 0.2s;
+  }
+  .btn-outline:hover { border-color: #c0392b; color: #c0392b; }
+
+  .hero-visual {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;
+  }
+  .mini-card {
+    background: #fff; border-radius: 14px; overflow: hidden;
+    border: 1px solid #ebebeb;
+    transition: transform 0.2s, box-shadow 0.2s;
+  }
+  .mini-card:hover { transform: translateY(-4px); box-shadow: 0 12px 32px rgba(0,0,0,0.09); }
+  .mini-card:first-child { grid-column: span 2; }
+  .card-img {
+    width: 100%; aspect-ratio: 4/3; object-fit: cover;
+    background: #f0ece4; display: flex; align-items: center; justify-content: center;
+    font-size: 2.5rem;
+  }
+  .card-img.tall { aspect-ratio: 2/1.3; }
+  .card-body { padding: 0.8rem 1rem; }
+  .card-body .tag { font-size: 0.72rem; color: #c0392b; font-weight: 500; text-transform: uppercase; letter-spacing: 0.5px; }
+  .card-body .title { font-size: 0.9rem; font-weight: 500; color: #1a1a1a; margin: 0.2rem 0; }
+  .card-body .price { font-size: 0.85rem; color: #555; }
+  .card-body .price strong { color: #1a1a1a; }
+
+  .badge-strip {
+    display: flex; justify-content: center; gap: 3rem;
+    padding: 1.5rem 3rem;
+    background: #fff; border-top: 1px solid #ebebeb; border-bottom: 1px solid #ebebeb;
+    font-size: 0.88rem; color: #888;
+  }
+  .badge-strip span strong { color: #1a1a1a; }
+
+  .section { padding: 4rem 3rem; }
+  .section-header { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 2rem; }
+  .section-header h2 { font-family: 'Playfair Display', serif; font-size: 1.9rem; }
+  .section-header a { font-size: 0.88rem; color: #c0392b; text-decoration: none; }
+
+  .products-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 1.2rem; }
+  .product-card {
+    background: #fff; border-radius: 14px; border: 1px solid #ebebeb;
+    overflow: hidden; cursor: pointer;
+    transition: transform 0.2s, box-shadow 0.2s;
+  }
+  .product-card:hover { transform: translateY(-4px); box-shadow: 0 12px 32px rgba(0,0,0,0.09); }
+  .product-img {
+    width: 100%; aspect-ratio: 1; background: #f5f2ed;
+    display: flex; align-items: center; justify-content: center; font-size: 3rem;
+  }
+  .product-info { padding: 1rem; }
+  .product-tag { font-size: 0.72rem; color: #c0392b; font-weight: 500; text-transform: uppercase; letter-spacing: 0.5px; }
+  .product-name { font-size: 0.9rem; font-weight: 500; margin: 0.3rem 0 0.5rem; line-height: 1.4; }
+  .product-price { display: flex; align-items: center; justify-content: space-between; }
+  .product-price .amount { font-size: 1rem; font-weight: 500; }
+  .product-price .original { font-size: 0.8rem; color: #aaa; text-decoration: line-through; margin-left: 6px; }
+  .buy-btn {
+    display: block; text-align: center; background: #c0392b; color: #fff;
+    text-decoration: none; padding: 0.55rem; border-radius: 7px;
+    font-size: 0.84rem; margin-top: 0.8rem; transition: background 0.2s;
+  }
+  .buy-btn:hover { background: #a93226; }
+  .discount-badge {
+    font-size: 0.7rem; background: #fdecea; color: #c0392b;
+    padding: 2px 7px; border-radius: 4px; font-weight: 500;
+  }
+
+  .categories {
+    background: #fff; border-top: 1px solid #ebebeb; border-bottom: 1px solid #ebebeb;
+  }
+  .cat-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 0; }
+  .cat-item {
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    padding: 2rem 1rem; cursor: pointer; border-right: 1px solid #ebebeb;
+    transition: background 0.2s;
+  }
+  .cat-item:last-child { border-right: none; }
+  .cat-item:hover { background: #faf9f7; }
+  .cat-icon { font-size: 1.8rem; margin-bottom: 0.5rem; }
+  .cat-label { font-size: 0.82rem; color: #555; font-weight: 500; }
+
+  .cta-section {
+    background: #1a1a1a; color: #fff;
+    text-align: center; padding: 5rem 3rem;
+  }
+  .cta-section h2 { font-family: 'Playfair Display', serif; font-size: 2.5rem; margin-bottom: 1rem; }
+  .cta-section p { color: #aaa; font-size: 1rem; margin-bottom: 2rem; }
+  .cta-section .btn-primary { background: #c0392b; font-size: 1rem; padding: 0.9rem 2.5rem; }
+
+  footer {
+    background: #fff; border-top: 1px solid #ebebeb;
+    padding: 1.5rem 3rem;
+    display: flex; justify-content: space-between; align-items: center;
+    font-size: 0.8rem; color: #aaa;
+  }
+  footer a { color: #aaa; text-decoration: none; }
+  footer a:hover { color: #c0392b; }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="logo">Pin<span>Deals</span></div>
+  <ul>
+    <li><a href="#">Home</a></li>
+    <li><a href="#">Top Picks</a></li>
+    <li><a href="#">Categories</a></li>
+    <li><a href="#">Trending</a></li>
+  </ul>
+  <button class="nav-btn">Shop Amazon</button>
+</nav>
+
+<section class="hero">
+  <div class="hero-text">
+    <h1>Products Worth <em>Pinning</em>, Worth Buying</h1>
+    <p>Handpicked finds from Amazon — curated daily so you don't have to scroll for hours. Every item, real tested, real value.</p>
+    <div class="hero-actions">
+      <a href="#" class="btn-primary">Explore Deals</a>
+      <a href="#" class="btn-outline">View Categories</a>
+    </div>
+  </div>
+  <div class="hero-visual">
+    <div class="mini-card">
+      <div class="card-img tall" style="background:#f0ece4;">🎧</div>
+      <div class="card-body">
+        <div class="tag">Electronics</div>
+        <div class="title">Sony WH-1000XM5 Headphones</div>
+        <div class="price"><strong>₹24,990</strong> <span style="color:#aaa;text-decoration:line-through;font-size:0.8rem;">₹34,990</span></div>
+      </div>
+    </div>
+    <div class="mini-card">
+      <div class="card-img" style="background:#f5f0e8;">📚</div>
+      <div class="card-body">
+        <div class="tag">Books</div>
+        <div class="title">Atomic Habits</div>
+        <div class="price"><strong>₹399</strong></div>
+      </div>
+    </div>
+    <div class="mini-card">
+      <div class="card-img" style="background:#eef3f0;">🧴</div>
+      <div class="card-body">
+        <div class="tag">Beauty</div>
+        <div class="title">Vitamin C Serum</div>
+        <div class="price"><strong>₹699</strong></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="badge-strip">
+  <span>✓ <strong>Verified Amazon Links</strong></span>
+  <span>✓ <strong>Updated Daily</strong></span>
+  <span>✓ <strong>Curated for India</strong></span>
+  <span>✓ <strong>Best Price Guarantee</strong></span>
+</div>
+
+<div class="categories">
+  <div class="cat-grid">
+    <div class="cat-item"><div class="cat-icon">📱</div><div class="cat-label">Electronics</div></div>
+    <div class="cat-item"><div class="cat-icon">👗</div><div class="cat-label">Fashion</div></div>
+    <div class="cat-item"><div class="cat-icon">🏠</div><div class="cat-label">Home & Kitchen</div></div>
+    <div class="cat-item"><div class="cat-icon">💄</div><div class="cat-label">Beauty</div></div>
+    <div class="cat-item"><div class="cat-icon">📚</div><div class="cat-label">Books</div></div>
+  </div>
+</div>
+
+<section class="section">
+  <div class="section-header">
+    <h2>Today's Top Picks</h2>
+    <a href="#">View all →</a>
+  </div>
+  <div class="products-grid">
+
+    <div class="product-card">
+      <div class="product-img" style="background:#eaf0fb;">🎧</div>
+      <div class="product-info">
+        <div class="product-tag">Electronics</div>
+        <div class="product-name">Noise Cancelling Earbuds Pro</div>
+        <div class="product-price">
+          <span><span class="amount">₹1,799</span><span class="original">₹2,999</span></span>
+          <span class="discount-badge">40% off</span>
+        </div>
+        <a href="YOUR_AMAZON_AFFILIATE_LINK_HERE" class="buy-btn">Buy on Amazon</a>
+      </div>
+    </div>
+
+    <div class="product-card">
+      <div class="product-img" style="background:#f5f2e8;">📖</div>
+      <div class="product-info">
+        <div class="product-tag">Books</div>
+        <div class="product-name">Rich Dad Poor Dad – Hindi Edition</div>
+        <div class="product-price">
+          <span><span class="amount">₹299</span><span class="original">₹450</span></span>
+          <span class="discount-badge">33% off</span>
+        </div>
+        <a href="YOUR_AMAZON_AFFILIATE_LINK_HERE" class="buy-btn">Buy on Amazon</a>
+      </div>
+    </div>
+
+    <div class="product-card">
+      <div class="product-img" style="background:#eef5f0;">🧘</div>
+      <div class="product-info">
+        <div class="product-tag">Fitness</div>
+        <div class="product-name">Yoga Mat Anti-slip 6mm</div>
+        <div class="product-price">
+          <span><span class="amount">₹549</span><span class="original">₹899</span></span>
+          <span class="discount-badge">39% off</span>
+        </div>
+        <a href="YOUR_AMAZON_AFFILIATE_LINK_HERE" class="buy-btn">Buy on Amazon</a>
+      </div>
+    </div>
+
+    <div class="product-card">
+      <div class="product-img" style="background:#fef5ec;">🕯️</div>
+      <div class="product-info">
+        <div class="product-tag">Home</div>
+        <div class="product-name">Aromatherapy Diffuser Set</div>
+        <div class="product-price">
+          <span><span class="amount">₹899</span><span class="original">₹1,499</span></span>
+          <span class="discount-badge">40% off</span>
+        </div>
+        <a href="YOUR_AMAZON_AFFILIATE_LINK_HERE" class="buy-btn">Buy on Amazon</a>
+      </div>
+    </div>
+
+    <div class="product-card">
+      <img src="https://m.media-amazon.com/images/I/61GfiZngyIL._AC_UF1000,1000_QL80_.jpg" style="width:100%;aspect-ratio:1;object-fit:cover;">
+      <div class="product-info">
+        <div class="product-tag">Home</div>
+        <div class="product-name">3D Crystal Moon Lamp</div>
+        <div class="product-price">
+          <span><span class="amount">₹187</span></span>
+        </div>
+        <a href="https://amzn.to/4lruCce" class="buy-btn">Buy on Amazon</a>
+      </div>
+    </div>
+
+    <div class="product-card">
+      <img src="https://m.media-amazon.com/images/I/61Xg891k+EL._SL1315_.jpg" style="width:100%;aspect-ratio:1;object-fit:cover;">
+      <div class="product-info">
+        <div class="product-tag">Books</div>
+        <div class="product-name">Agentic AI</div>
+        <div class="product-price">
+          <span><span class="amount">₹450</span></span>
+        </div>
+        <a href="https://amzn.to/3PjxyM6" class="buy-btn">Buy on Amazon</a>
+      </div>
+    </div>
+
+    <div class="product-card">
+      <img src="https://m.media-amazon.com/images/I/71dGKR1iP1L._SL1100_.jpg" style="width:100%;aspect-ratio:1;object-fit:cover;">
+      <div class="product-info">
+        <div class="product-tag">Kitchen & Dining</div>
+        <div class="product-name">Unique Half Ceramic Tea Cups</div>
+        <div class="product-price">
+          <span><span class="amount">₹474</span></span>
+        </div>
+        <a href="https://amzn.to/4uz9jsh" class="buy-btn">Buy on Amazon</a>
+      </div>
+    </div>
+
+    <div class="product-card">
+      <img src="https://m.media-amazon.com/images/I/71MhtZF5NWL._SL1500_.jpg" style="width:100%;aspect-ratio:1;object-fit:cover;">
+      <div class="product-info">
+        <div class="product-tag">Wireless Accessories</div>
+        <div class="product-name">Ambrane 60W Fast Charging Braided Type C Cable 1.5M</div>
+        <div class="product-price">
+          <span><span class="amount">₹141</span></span>
+        </div>
+        <a href="https://amzn.to/4u1UiPU" class="buy-btn">Buy on Amazon</a>
+      </div>
+    </div>
+
+    <div class="product-card">
+      <img src="https://m.media-amazon.com/images/I/61XdpiDG9zL._SL1200_.jpg" style="width:100%;aspect-ratio:1;object-fit:cover;">
+      <div class="product-info">
+        <div class="product-tag">Home</div>
+        <div class="product-name">Panda Night Light for Kids – 7 Colorful Lights</div>
+        <div class="product-price">
+          <span><span class="amount">₹349</span></span>
+        </div>
+        <a href="https://amzn.to/3PdBkXm" class="buy-btn">Buy on Amazon</a>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<div class="cta-section">
+  <h2>Find Your Next Favourite Thing</h2>
+  <p>We search Amazon daily so you can shop smarter and faster.</p>
+  <a href="#" class="btn-primary">Browse All Deals</a>
+</div>
+
+<footer>
+  <span>© 2025 PinDeals. All links are Amazon affiliate links.</span>
+  <span><a href="#">Privacy Policy</a> &nbsp;·&nbsp; <a href="#">Disclaimer</a> &nbsp;·&nbsp; <a href="#">Contact</a></span>
+</footer>
+
+</body>
+</html>
